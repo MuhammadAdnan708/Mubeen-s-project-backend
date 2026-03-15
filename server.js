@@ -24,7 +24,6 @@ app.use(express.json());
 const connectDB = async () => {
   try {
     console.log('Connecting to MongoDB...');
-    console.log('URI:', process.env.MONGO_URI);
     await mongoose.connect(process.env.MONGO_URI, {
       family: 4,
       maxPoolSize: 10,
@@ -120,8 +119,12 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📱 API URL: http://localhost:${PORT}/api`);
-});
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📱 API URL: http://localhost:${PORT}/api`);
+  });
+}
+
+module.exports = app;

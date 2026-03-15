@@ -115,6 +115,14 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/services', serviceRoutes);
 
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Backend deployed successfully',
+    health: '/api/health'
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
